@@ -1,0 +1,129 @@
+@property --book-rise { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --book-float { syntax: '<length>'; inherits: false; initial-value: 0px; }
+@property --book-from { syntax: '<color>'; inherits: true; initial-value: #d7c4a8; }
+@property --book-to { syntax: '<color>'; inherits: true; initial-value: #b8a182; }
+
+#bookSpread[data-texture] {
+  background-image: linear-gradient(var(--book-angle, 135deg), var(--book-from), var(--book-to));
+  transition: --book-from var(--atm-transition), --book-to var(--atm-transition), border-color var(--atm-transition), border-radius var(--atm-transition);
+}
+#bookSpread .vintage-journal-page, #bookSpread .sb-title, #bookSpread .journal-note {
+  transition: background-color var(--atm-transition), color var(--atm-transition), border-color var(--atm-transition);
+}
+#bookSpread[data-texture] :is(.vt-polaroid, .vt-taped, .vt-arch, .vt-round, .vt-blob) { background-color: var(--book-cream); }
+#bookSpread[data-archetype='zine'] .vt-torn { background: var(--book-cream); padding: .8cqw; outline: .3cqw solid var(--book-accent); }
+#bookSpread[data-archetype='zine'] .vt-title .one { text-shadow: none !important; background: var(--book-cream); padding: .2em .35em; border: .08em solid currentColor; transform: rotate(-3deg); }
+#bookSpread[data-archetype='pop'] .vt-st { filter: drop-shadow(0 .5cqw .65cqw var(--book-accent)); }
+#bookSpread[data-archetype='noir'] .vt-torn {
+  background: var(--book-cream);
+  padding: .8cqw;
+  outline: 1px solid var(--book-secondary);
+}
+#bookSpread[data-archetype='noir'] .vt-st svg { filter: grayscale(1) brightness(.84); }
+#bookSpread[data-archetype='noir'] .vt-title .one {
+  background: var(--jp-bg);
+  padding: .2em .45em;
+  border-block: 1px solid var(--book-secondary);
+}
+#bookSpread[data-archetype='painter'] .vt-scalloped {
+  padding: 1.3cqw 1.6cqw; background: var(--book-cream); border-radius: 37% 12% 33% 16% / 14% 28% 16% 28%;
+  outline: .45cqw dotted var(--book-secondary); outline-offset: -.35cqw;
+}
+#bookSpread[data-archetype='painter'] .vt-scalloped .box { border-radius: 37% 12% 33% 16% / 14% 28% 16% 28%; }
+#bookSpread[data-archetype='cozy'] .vt-st svg { filter: drop-shadow(1px 0 #fff) drop-shadow(-1px 0 #fff) drop-shadow(0 2px #fff); }
+#bookSpread[data-archetype='cozy'] .vt-note { background-image: repeating-linear-gradient(transparent 0 15px, #6d505026 15px 16px) !important; }
+#bookSpread[data-texture] .vt-photo .cap { color: var(--book-on-cream); }
+#bookSpread[data-texture] :is(.cutout-add-btn, .live-player-box) {
+  background: var(--jp-bg);
+  color: var(--jp-ink);
+  border-color: var(--book-accent);
+}
+#bookSpread[data-texture] :is(.live-player-box a, .live-player-box button:not(#modalPlayBtn)) { color: var(--jp-ink); }
+#modalPlayBtn { background: var(--book-accent, #7a6148); color: var(--book-on-accent, white); border: 0; }
+#bookSpread:not([data-texture]) #modalPlayBtn { background: #7a6148; color: white; }
+#bookSpread[data-texture] .eq-bars span { background: var(--book-accent); }
+
+#collageItemsLayer { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+#collageItemsLayer > * { pointer-events: auto; }
+
+/* Two paint layers below the movable pieces, never part of hit testing. */
+#bookSpread[data-texture] #collageBoard::before,
+#bookSpread[data-texture] #collageBoard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+#bookSpread[data-texture] #collageBoard::before {
+  opacity: var(--book-glow);
+  background: radial-gradient(ellipse at 20% 22%, var(--book-accent), transparent 58%),
+              radial-gradient(ellipse at 76% 68%, var(--book-secondary), transparent 64%);
+}
+#bookSpread[data-texture] #collageBoard::after {
+  z-index: 1;
+  opacity: var(--book-grain);
+  background-image: radial-gradient(circle, var(--book-accent) 0 1px, transparent 2px),
+                    radial-gradient(circle, var(--book-secondary) 0 4px, transparent 17px);
+  background-size: 39px 43px, 137px 121px;
+}
+#bookSpread[data-texture='rain'] #collageBoard::after {
+  background-image: radial-gradient(ellipse 1px 10px at 25% 40%, var(--book-accent), transparent),
+                    radial-gradient(ellipse 1px 7px at 72% 70%, var(--book-secondary), transparent);
+  background-size: 34px 105px, 51px 77px;
+}
+#bookSpread[data-archetype='noir'] #collageBoard::after {
+  background-image: radial-gradient(ellipse 1px 9px at 25% 40%, var(--book-accent), transparent),
+                    radial-gradient(circle, var(--book-secondary) .65px, transparent 1px);
+  background-size: 42px 109px, 5px 7px;
+}
+#bookSpread[data-texture='sparkles'] #collageBoard::after {
+  background-image: radial-gradient(circle, var(--book-accent) 0 2px, transparent 4px),
+                    radial-gradient(circle, var(--book-secondary) 0 2px, transparent 5px);
+  background-size: 51px 48px, 79px 64px;
+}
+#bookSpread[data-texture='grain'] #collageBoard::after {
+  background-image: radial-gradient(circle, var(--jp-ink) .55px, transparent .95px),
+                    radial-gradient(circle, var(--book-accent) .7px, transparent 1.4px);
+  background-size: 3px 5px, 7px 9px;
+}
+#scrapbookModal.open #bookSpread[data-motion='on'] #collageBoard::after { animation: book-paper-drift var(--book-cycle, 27s) linear infinite; }
+#scrapbookModal.open #bookSpread[data-motion='on']:is([data-texture='sparkles'], [data-texture='orbs']) #collageBoard::after {
+  animation-timing-function: ease-in-out;
+  animation-direction: alternate;
+}
+@keyframes book-paper-drift { to { background-position: 0 105px, 0 77px; } }
+
+.book-draggable {
+  translate: var(--drag-x, 0px) calc(var(--drag-y, 0px) + var(--book-rise, 0px) + var(--book-float, 0px));
+  rotate: var(--drag-tilt, 0deg);
+  transition: rotate 240ms cubic-bezier(.18,.8,.35,1);
+}
+.book-draggable.is-dragging { cursor: grabbing; transition-duration: 90ms; }
+@media (hover: hover) {
+  .book-draggable:hover:not(.is-dragging) { rotate: -2deg; }
+}
+
+#scrapbookModal.open :is(.book-draggable, .vt-glit, .vt-tape) {
+  --book-stagger: calc(var(--i, 0) * 46ms + 45ms);
+  animation: book-arrive 560ms cubic-bezier(.2,.65,.3,1) var(--book-stagger) both;
+}
+#scrapbookModal.open :is(.vt-photo, .vt-st, .vt-doodle, .vt-glit) {
+  animation: book-arrive 560ms cubic-bezier(.2,.65,.3,1) var(--book-stagger) both,
+             book-breathe var(--book-cycle, 27s) ease-in-out calc(var(--book-stagger) + 560ms) infinite;
+}
+#scrapbookModal.open #bookSpread[data-motion='off'] :is(.vt-photo, .vt-st, .vt-doodle, .vt-glit) { animation-name: book-arrive; }
+#scrapbookModal.open :is(.book-draggable:hover, .book-draggable.is-dragging) { animation-play-state: running, paused; }
+#scrapbookModal.open .vt-tape { translate: 0 var(--book-rise, 0px); animation-delay: calc(var(--book-stagger) + 180ms); }
+@keyframes book-arrive { from { opacity: 0; --book-rise: 10px; scale: .985; } to { --book-rise: 0px; } }
+@keyframes book-breathe { 50% { --book-float: -3px; } }
+#scrapbookModal.open .living-canvas, #videoModal.open .living-canvas { animation: studio-page-in 270ms ease-out both; }
+@keyframes studio-page-in { from { opacity: 0; translate: 0 7px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  #scrapbookModal.open, #videoModal.open,
+  #scrapbookModal.open .living-canvas, #videoModal.open .living-canvas,
+  #scrapbookModal.open :is(.book-draggable, .vt-glit, .vt-tape, .vt-doodle path),
+  #scrapbookModal.open #bookSpread #collageBoard::after { animation: none !important; }
+  #scrapbookModal .book-draggable { rotate: none; transition: none; }
+  .vt-doodle path { stroke-dashoffset: 0 !important; }
+}

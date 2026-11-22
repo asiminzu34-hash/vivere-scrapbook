@@ -1,0 +1,24 @@
+{
+  "name": "vivere-memory-studio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "check": "node --check server.js && node --check atmosphere-service.js && node --check atmosphere-style.js && node --check atmosphere-controls.js && node --check themes.js && node --check background-music.js && node --check reel-copy.js && node --check reel-renderer.js && node --check reel-audio.js && node --check reel-studio.js && node --check music-preview.js && node --check narration-service.js && node --check scrapbook-design.js && node --check memory-audio.js && node --check archive-export.js && node --check memory-archive.js",
+    "test": "node --test *.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@google/genai": "^1.11.0",
+    "express": "^5.1.0",
+    "multer": "^2.0.2"
+  },
+  "allowScripts": {
+    "protobufjs@7.6.6": true,
+    "@google/genai@1.52.0": true
+  }
+}
